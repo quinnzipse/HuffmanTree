@@ -106,7 +106,7 @@ class HuffmanCodeTest {
 
         System.out.println("\nTest 5: Manual (manualTest.txt)");
         System.out.println("The q's and c's should have the smallest encoding.");
-        hf = new HuffmanCode("test.txt");
+        hf = new HuffmanCode("t.txt");
         print(hf.getPaths());
         testHuffmanAccuracy(hf);
     }
