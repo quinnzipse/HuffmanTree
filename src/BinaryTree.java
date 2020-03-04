@@ -25,7 +25,15 @@ public class BinaryTree<T> {
         return new BinaryTree<>(head.right);
     }
 
-
+    public String postOrderString() {
+        return postOrderString(head);
+    }
+    private String postOrderString(Node n){
+        if(n == null) return "";
+        String l = postOrderString(n.left);
+        String r = postOrderString(n.right);
+        return l + (l.length() > 0 ? " " : "") + r + (r.length() > 0 ? " " : "") + n.data;
+    }
 
     //This class makes no reference to Huffman Encoding
     //Add methods and instance variables for a general

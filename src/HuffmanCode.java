@@ -1,13 +1,12 @@
-import org.jetbrains.annotations.NotNull;
-import org.junit.jupiter.params.shadow.com.univocity.parsers.common.input.BomInput;
-
-import java.io.*;
-import java.nio.Buffer;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.PriorityQueue;
 public class HuffmanCode {
     private int[] cf = new int[128];
     private PriorityQueue<Helper<BinaryTree<Character>>> pq;
     private BinaryTree<Character> tree;
+    private String[] paths = new String[128];
     public HuffmanCode(String in) {
         //Implements the main flow of your program
         //Add private methods and instance variables as needed
@@ -19,13 +18,34 @@ public class HuffmanCode {
         }
         queueChars();
         tree = constructTree();
+        findPaths();
     }
 
+    // Getters and Setters
     public BinaryTree<Character> getTree() {
         return tree;
     }
     public int[] getCf() { return cf; }
 
+    private void findPaths() {
+        StringBuilder sb = new StringBuilder();
+        findPaths(sb, tree);
+    }
+    private void findPaths(StringBuilder sb, BinaryTree<Character> t) {
+        //TODO: Find the paths to each character.
+        if(t == null) {
+            System.out.println("An error has occured.");
+            return;
+        }
+        if(sb == null){
+            System.out.println("STRINGBUILDER IS NULL!!");
+            return;
+        }
+        if(t.getData() != null) paths[((int)t.getData())] = sb.toString(); // Leaf!
+
+        findPaths(sb.append(0), t.goLeft());
+        findPaths(sb.append(1), t.goRight());
+    }
     private void findFrequency(FileReader reader) throws IOException {
         BufferedReader r = new BufferedReader(reader);
         int c = r.read();
@@ -37,10 +57,13 @@ public class HuffmanCode {
     }
     private void queueChars(){
         pq = new PriorityQueue<>();
-        for(int i=0; i<cf.length; i++) {
-            pq.add(new Helper<>( i,
-                    new BinaryTree<>((char)cf[i])));
-            System.out.println(cf[i] + " queued with priority: " + i);
+        int i;
+        for(i=0; i<cf.length; i++) {
+            if(cf[i] != 0) {
+                pq.add(new Helper<>(cf[i], new BinaryTree<>((char) i)));
+                if (i <= 32 || i == 127) System.out.println(i + " queued with priority: " + cf[i]);
+                else System.out.println((char) i + " queued with priority: " + cf[i]);
+            }
         }
         System.out.println("Done queuing.");
     }

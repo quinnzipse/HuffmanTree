@@ -1,21 +1,24 @@
+import org.junit.Ignore;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.PriorityQueue;
 import java.util.Random;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.fail;
 
 class HuffmanCodeTest {
     // Helper class to generate data for multiple tests
-    private File createRandomFile(){
+    @Ignore
+    private File createRandomFile(boolean flag){
         Random ran = new Random();
         int stringLength = ran.nextInt(800000)+70000;
         StringBuilder sb = new StringBuilder();
-        for(int i=0; i<stringLength; i++) sb.append((char)(ran.nextInt(127)));
+        if(flag) for(int i=0; i<stringLength; i++) sb.append((char)(ran.nextInt(127)));
+        for(int i=0; i<stringLength; i++) sb.append((char)(ran.nextInt(26) + 97));
         File f = new File("exampleText.txt");
         try {
             FileWriter fw = new FileWriter(f);
@@ -27,36 +30,30 @@ class HuffmanCodeTest {
         }
         return f;
     }
-    // Helper class for charFrequency Test
-    private <T> void printWithIterator(String s, Iterator<T> iterator){
-        System.out.print(s + " ");
-        int i=0;
-        while(iterator.hasNext()){
-            System.out.print(iterator.next() + " ");
-            if(i%20 == 0) System.out.println();
-            i++;
-        }
-        System.out.println();
-    }
 
-    @Test
+    @Disabled
     void charFrequencyTest(){
-        File f = createRandomFile();
+        File f = createRandomFile(true);
         HuffmanCode hf = new HuffmanCode(f.getName());
-        if(cf.size() != uc.size()) fail("For some reason we have an unequal character and frequency list.");
-        printWithIterator("The unique characters found are: ", uc.iterator());
-        printWithIterator("The character counts are: ", cf.iterator());
+        int[] arr = hf.getCf();
+        for(int i=0; i<arr.length; i++) System.out.println("Char " + i + " was found " + arr[i] + " times.");
     }
 
-    @Test
-    void constructTreeTest(){
-        File f = createRandomFile();
+    @Disabled
+    void priorityTest(){
+        File f = createRandomFile(false);
         HuffmanCode hf = new HuffmanCode(f.getName());
         BinaryTree<Character> tree = hf.getTree();
-        tree
+        String s = tree.postOrderString();
+        System.out.println(s);
     }
 
     @Test
+    void testPaths(){
+        HuffmanCode hf = new HuffmanCode("exampleText.txt");
+    }
+
+    @Disabled
     void fullTest(){
         fail("Not implemented yet.");
     }
