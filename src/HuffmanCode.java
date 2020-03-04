@@ -15,6 +15,7 @@ public class HuffmanCode {
             findFrequency(new FileReader(in));
         } catch (IOException e){
             System.out.println("Something went wrong");
+            return;
         }
         queueChars();
         tree = constructTree();
@@ -53,9 +54,8 @@ public class HuffmanCode {
     private void queueChars(){
         pq = new PriorityQueue<>();
         for(int i=0; i<cf.length; i++)
-            if(cf[i] != 0)
+            if (cf[i] != 0)
                 pq.add(new Helper<>(cf[i], new BinaryTree<>((char) i)));
-        System.out.println("Done queuing.");
     }
     private BinaryTree<Character> constructTree(){
         // If the PQ has 1 or 0 you either have your end result or you called method this too early.
@@ -63,7 +63,7 @@ public class HuffmanCode {
         if(pq.size() == 0) return null;
         // Poll the lowest two trees, combine them, then stick them back in the queue.
         Helper<BinaryTree<Character>> temp0 = pq.poll(), temp1 = pq.poll(),
-                result = new Helper<>(temp0.priority + temp1.priority, new BinaryTree<>(temp0.data, '\0' , temp1.data));
+                result = new Helper<>(temp0.priority + temp1.priority, new BinaryTree<>(temp0.data, null , temp1.data));
         pq.add(result);
         // Call again to keep constructing.
         return constructTree();

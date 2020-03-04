@@ -1,4 +1,3 @@
-import java.util.*;
 public class BinaryTree<T> {
     private Node head;
     public BinaryTree(T c) {
@@ -6,7 +5,7 @@ public class BinaryTree<T> {
     }
 
     public BinaryTree( BinaryTree<T> tree1, T c,  BinaryTree<T> tree2){
-        head = new Node(tree1.head, null, tree2.head);
+        head = new Node(tree1.head, c, tree2.head);
     }
 
     private BinaryTree(Node n){
@@ -14,7 +13,6 @@ public class BinaryTree<T> {
     }
 
     public BinaryTree<T> goLeft(){
-        if(head == null) return null;
         return new BinaryTree<>(head.left);
     }
 
@@ -23,7 +21,6 @@ public class BinaryTree<T> {
     }
 
     public BinaryTree<T> goRight(){
-        if(head == null) return null;
         return new BinaryTree<>(head.right);
     }
 
@@ -56,26 +53,6 @@ public class BinaryTree<T> {
             left = L;
             data = d;
             right = R;
-        }
-
-        public Node getLeft() {
-            return left;
-        }
-
-        public Node getRight() {
-            return right;
-        }
-
-        public void setLeft(Node left) {
-            this.left = left;
-        }
-
-        public void setRight(Node right) {
-            this.right = right;
-        }
-
-        public T getData() {
-            return data;
         }
     }
 }
