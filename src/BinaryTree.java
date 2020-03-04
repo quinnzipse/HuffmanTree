@@ -14,6 +14,7 @@ public class BinaryTree<T> {
     }
 
     public BinaryTree<T> goLeft(){
+        if(head == null) return null;
         return new BinaryTree<>(head.left);
     }
 
@@ -22,6 +23,7 @@ public class BinaryTree<T> {
     }
 
     public BinaryTree<T> goRight(){
+        if(head == null) return null;
         return new BinaryTree<>(head.right);
     }
 

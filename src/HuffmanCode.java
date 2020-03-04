@@ -26,25 +26,20 @@ public class HuffmanCode {
         return tree;
     }
     public int[] getCf() { return cf; }
+    public String[] getPaths() {
+        return paths;
+    }
 
     private void findPaths() {
-        StringBuilder sb = new StringBuilder();
-        findPaths(sb, tree);
+        findPaths("", tree);
     }
-    private void findPaths(StringBuilder sb, BinaryTree<Character> t) {
-        //TODO: Find the paths to each character.
-        if(t == null) {
-            System.out.println("An error has occured.");
+    private void findPaths(String s, BinaryTree<Character> t) {
+        if(t.getData() != null){
+            paths[((int)t.getData())] = s; // Leaf!
             return;
         }
-        if(sb == null){
-            System.out.println("STRINGBUILDER IS NULL!!");
-            return;
-        }
-        if(t.getData() != null) paths[((int)t.getData())] = sb.toString(); // Leaf!
-
-        findPaths(sb.append(0), t.goLeft());
-        findPaths(sb.append(1), t.goRight());
+        findPaths(s + "0", t.goLeft());
+        findPaths(s + "1", t.goRight());
     }
     private void findFrequency(FileReader reader) throws IOException {
         BufferedReader r = new BufferedReader(reader);
@@ -57,14 +52,9 @@ public class HuffmanCode {
     }
     private void queueChars(){
         pq = new PriorityQueue<>();
-        int i;
-        for(i=0; i<cf.length; i++) {
-            if(cf[i] != 0) {
+        for(int i=0; i<cf.length; i++)
+            if(cf[i] != 0)
                 pq.add(new Helper<>(cf[i], new BinaryTree<>((char) i)));
-                if (i <= 32 || i == 127) System.out.println(i + " queued with priority: " + cf[i]);
-                else System.out.println((char) i + " queued with priority: " + cf[i]);
-            }
-        }
         System.out.println("Done queuing.");
     }
     private BinaryTree<Character> constructTree(){
